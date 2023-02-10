@@ -26,12 +26,7 @@ const Converter = () => {
     }
   }, [symbolsData])
 
-  useEffect(() => {
-    if(convertData){
-      setResult(convertData.result)
-    }
-  }, [convertData])
-  
+
 
 
 
@@ -68,7 +63,7 @@ const Converter = () => {
           />
           <CurrencyRow currencyOptions={currencyOptions}  selectedCurrency={toCurrency}
           onChangeCurrency={e => setToCurrency(e.target.value)}
-          amount={result}
+          amount={convertData?.result || 0}
           />
         </div>
       ) : null}
