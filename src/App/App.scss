@@ -1,1 +1,13 @@
 @import-normalize;
+
+tr{
+    cursor: pointer;
+    background: #fff;
+    &:nth-of-type(odd){
+        background: #eee;
+    }
+
+    &:hover{
+        background: #ccc;
+    }
+}
