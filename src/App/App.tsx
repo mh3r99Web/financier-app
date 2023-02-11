@@ -1,15 +1,15 @@
-import React from 'react'
-import Converter from '../component/Converter'
-import ExchangeTable from '../component/ExchangeTable'
-import "./App.scss"
+import React from 'react';
+import Converter from '../components/Converter';
+import ExchangeTable from '../components/ExchangeTable';
+import './App.scss';
 
 const App = () => {
   return (
     <div>
       {/* <Converter/> */}
-      <ExchangeTable/>
+      <ExchangeTable />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
