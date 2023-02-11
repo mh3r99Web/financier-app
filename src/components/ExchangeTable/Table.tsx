@@ -31,7 +31,7 @@ export const Table = () => {
   const [dateValue, setDateValue] = useState(getCurrentValue);
   const [tableData, setTableData] = useState<{ [k: string]: number }>({});
 
-  const [changeSymbol, { data, isLoading, isFetching }] = useLazyGetLatestExchangeQuery();
+  const [changeSymbol, { data, isLoading, isFetching, isError }] = useLazyGetLatestExchangeQuery();
 
   useEffect(() => {
     if (data) {
@@ -84,6 +84,7 @@ export const Table = () => {
             <input className="dateFilter" type="date" onChange={onDateChange} value={dateValue} />
             {isFetching && <Loader />}
           </div>
+          {isError && <p className="error">Something went wrong!</p>}
 
           <div className="table__wrapper">
             <table>
