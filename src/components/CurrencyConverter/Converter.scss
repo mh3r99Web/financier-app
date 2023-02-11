@@ -1,5 +1,9 @@
 .converter {
+  width: 400px;
   text-align: center;
+
+  .lds-ellipsis {
+  }
 }
 
 .currency__row {
@@ -8,6 +12,9 @@
   align-items: center;
   justify-content: center;
 
+  input {
+    width: 100%;
+  }
   input,
   select {
     padding: 5px 7px;

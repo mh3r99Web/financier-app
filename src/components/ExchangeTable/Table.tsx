@@ -3,6 +3,7 @@ import { useLazyGetLatestExchangeQuery } from '../../services/exchangeApi';
 import Tbody from './Tbody';
 import Thead from './Thead';
 import './Table.scss';
+import Loader from '../Loader/Loader';
 
 const columns = [
   { label: 'Symbols', accessor: 'symbols' },
@@ -15,7 +16,7 @@ export const Table = () => {
     [k: string]: number;
   }>({});
 
-  const [changeSymbol, { data, isLoading }] = useLazyGetLatestExchangeQuery();
+  const [changeSymbol, { data, isLoading, isFetching }] = useLazyGetLatestExchangeQuery();
 
   useEffect(() => {
     if (data) {
@@ -49,13 +50,17 @@ export const Table = () => {
     <>
       {!isLoading ? (
         <div className="table__container">
-          <select className="selectSymbol" onChange={onSymbolChange} value={baseSymbol}>
-            {Object.keys(data?.rates || {}).map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="filters">
+            <select className="selectSymbol" onChange={onSymbolChange} value={baseSymbol}>
+              {Object.keys(data?.rates || {}).map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            {isFetching && <Loader />}
+          </div>
+
           <div className="table__wrapper">
             <table>
               <Thead columns={columns} handleSorting={handleSorting} />
@@ -67,7 +72,9 @@ export const Table = () => {
             </table>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

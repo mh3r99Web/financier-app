@@ -3,6 +3,7 @@ import { useGetExchangeSymbolsQuery, useLazyConvertFromToQuery } from '../../ser
 import CurrencyRow from './CurrencyRow';
 import './Converter.scss';
 import useDebounce from '../../hooks/useDebounce';
+import Loader from '../Loader/Loader';
 
 const Converter = () => {
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
@@ -13,8 +14,10 @@ const Converter = () => {
 
   const { data: symbolsData, isLoading: isLoadingSymbols } = useGetExchangeSymbolsQuery();
 
-  const [convertFromTo, { data: convertData, isLoading: isLoadingConvert }] =
-    useLazyConvertFromToQuery();
+  const [
+    convertFromTo,
+    { data: convertData, isLoading: isLoadingConvert, isFetching: isFetchingConvertResult },
+  ] = useLazyConvertFromToQuery();
 
   useEffect(() => {
     if (symbolsData) {
@@ -43,7 +46,7 @@ const Converter = () => {
     <>
       {!isLoadingSymbols && !isLoadingConvert ? (
         <div className="converter">
-          <h1>Currency Converter</h1>
+          {!isFetchingConvertResult ? <h1>Currency Converter</h1> : <Loader />}
           <CurrencyRow
             currencyOptions={currencyOptions}
             selectedCurrency={fromCurrency}
@@ -51,6 +54,7 @@ const Converter = () => {
             amount={amount}
             onChangeAmount={handleAmountChange}
           />
+
           <CurrencyRow
             currencyOptions={currencyOptions}
             selectedCurrency={toCurrency}
@@ -58,7 +62,9 @@ const Converter = () => {
             amount={convertData?.result || 0}
           />
         </div>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };
