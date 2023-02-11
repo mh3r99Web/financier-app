@@ -1,12 +1,12 @@
 import React from 'react';
-import Converter from '../components/Converter';
+import Converter from '../components/CurrencyConverter/Converter';
 import { Table as ExchangeTable } from '../components/ExchangeTable/Table';
 import './App.scss';
 
 const App = () => {
   return (
-    <div>
-      {/* <Converter/> */}
+    <div className="container">
+      <Converter />
       <ExchangeTable />
     </div>
   );

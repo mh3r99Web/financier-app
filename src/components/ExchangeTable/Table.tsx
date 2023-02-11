@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLazyGetLatestExchangeQuery } from '../../services/exchangeApi';
 import Tbody from './Tbody';
 import Thead from './Thead';
+import './Table.scss';
 
 const columns = [
   { label: 'Symbols', accessor: 'symbols' },
@@ -47,21 +48,25 @@ export const Table = () => {
   return (
     <>
       {!isLoading ? (
-        <>
-          <div>
-            <select onChange={onSymbolChange} value={baseSymbol}>
-              {Object.keys(data?.rates || {}).map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+        <div className="table__container">
+          <select className="selectSymbol" onChange={onSymbolChange} value={baseSymbol}>
+            {Object.keys(data?.rates || {}).map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <div className="table__wrapper">
+            <table>
+              <Thead columns={columns} handleSorting={handleSorting} />
+              <Tbody
+                baseSymbol={baseSymbol}
+                tableData={tableData}
+                onChangeSymbol={(symbol) => setBaseSymbol(symbol)}
+              />
+            </table>
           </div>
-          <table>
-            <Thead columns={columns} handleSorting={handleSorting} />
-            <Tbody tableData={tableData} onChangeSymbol={(symbol) => setBaseSymbol(symbol)} />
-          </table>
-        </>
+        </div>
       ) : null}
     </>
   );
