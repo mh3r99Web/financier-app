@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ExchangeSymbolsResponse, ConvertFromToResponse, LatestExchangeResponse } from './types';
 
 const exchangeApiHeaders = {
-  apikey: 'igC4RjAkH1KlwWlfJJdDTDYSJJKK9nKW',
+  apikey: 'N1UeVzfkFOvW55KtIvpDbO1J7KmKz3d2',
 };
 
 const baseUrl = 'https://api.apilayer.com/exchangerates_data/';
