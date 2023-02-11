@@ -1,57 +1,30 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ExchangeSymbolsResponse, ConvertFromToResponse, LatestExchangeResponse } from './types';
 
 const exchangeApiHeaders = {
-  apikey: "tt1HNAZW6dTYrMG45A7lWplRNeEqi3um",
+  apikey: 'igC4RjAkH1KlwWlfJJdDTDYSJJKK9nKW',
 };
 
-const baseUrl = "https://api.apilayer.com/exchangerates_data/";
+const baseUrl = 'https://api.apilayer.com/exchangerates_data/';
 
 const createRequest = (url: string) => ({
   url,
   headers: exchangeApiHeaders,
 });
 
-interface ExchangeSymbolsResponse {
-  success: boolean;
-  symbols: { [key: string]: string };
-}
-
-interface ConvertFromToResponse {
-  date: Date;
-  info: {
-    rate: number;
-    timestamp: number;
-  };
-  query: {
-    amount: number;
-    from: string;
-    to: string;
-  };
-  result: number;
-  success: boolean;
-}
-
-interface LatestExchangeResponse {
-  base: string;
-  date: Date;
-  rates: { [key: string]: number };
-}
-
 export const exchangeApi = createApi({
-  reducerPath: "exchangeApi",
+  reducerPath: 'exchangeApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     getExchangeSymbols: builder.query<ExchangeSymbolsResponse, void>({
       query: () => createRequest(`symbols`),
     }),
-    convertFromTo: builder.query({
-      query: (data) =>
-        createRequest(
-          `convert?to=${data.to}&from=${data.from}&amount=${data.amount}`
-        ),
+    convertFromTo: builder.query<ConvertFromToResponse, { [key: string]: string }>({
+      query: ({ to, from, amount }) =>
+        createRequest(`convert?to=${to}&from=${from}&amount=${amount}`),
     }),
-    getLatestExchange: builder.query<LatestExchangeResponse, string>({
-      query: (baseSymbol) => createRequest(`latest?&base=${baseSymbol}`),
+    getLatestExchange: builder.query<LatestExchangeResponse, { [key: string]: string }>({
+      query: ({ dateValue, baseSymbol }) => createRequest(`${dateValue}?&base=${baseSymbol}`),
     }),
   }),
 });
@@ -59,5 +32,5 @@ export const exchangeApi = createApi({
 export const {
   useGetExchangeSymbolsQuery,
   useLazyConvertFromToQuery,
-  useLazyGetLatestExchangeQuery
+  useLazyGetLatestExchangeQuery,
 } = exchangeApi;

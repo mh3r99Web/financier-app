@@ -10,11 +10,26 @@ const columns = [
   { label: 'Rates', accessor: 'rates' },
 ];
 
+const getCurrentValue = () => {
+  const today: Date | string = new Date();
+  let dd: number | string = today.getDate();
+  let mm: number | string = today.getMonth() + 1;
+  let yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+  return yyyy + '-' + mm + '-' + dd;
+};
+
 export const Table = () => {
   const [baseSymbol, setBaseSymbol] = useState('AMD');
-  const [tableData, setTableData] = useState<{
-    [k: string]: number;
-  }>({});
+  const [dateValue, setDateValue] = useState(getCurrentValue);
+  const [tableData, setTableData] = useState<{ [k: string]: number }>({});
 
   const [changeSymbol, { data, isLoading, isFetching }] = useLazyGetLatestExchangeQuery();
 
@@ -25,11 +40,19 @@ export const Table = () => {
   }, [data]);
 
   useEffect(() => {
-    changeSymbol(baseSymbol);
-  }, [baseSymbol]);
+    if (!dateValue) return;
+    changeSymbol({
+      dateValue,
+      baseSymbol,
+    });
+  }, [baseSymbol, dateValue]);
 
   const onSymbolChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBaseSymbol(e.target.value);
+  };
+
+  const onDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateValue(e.target.value);
   };
 
   const handleSorting = (sortField: string, sortOrder: string) => {
@@ -51,13 +74,14 @@ export const Table = () => {
       {!isLoading ? (
         <div className="table__container">
           <div className="filters">
-            <select className="selectSymbol" onChange={onSymbolChange} value={baseSymbol}>
+            <select className="symbolFilter" onChange={onSymbolChange} value={baseSymbol}>
               {Object.keys(data?.rates || {}).map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </select>
+            <input className="dateFilter" type="date" onChange={onDateChange} value={dateValue} />
             {isFetching && <Loader />}
           </div>
 

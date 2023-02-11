@@ -9,7 +9,7 @@ const Converter = () => {
   const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
   const [fromCurrency, setFromCurrency] = useState('');
   const [toCurrency, setToCurrency] = useState('');
-  const [amount, setAmount] = useState<number | string>(1);
+  const [amount, setAmount] = useState<string>('1');
   const debouncedAmount = useDebounce(amount, 500);
 
   const { data: symbolsData, isLoading: isLoadingSymbols } = useGetExchangeSymbolsQuery();

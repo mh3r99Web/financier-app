@@ -6,6 +6,7 @@
 .filters {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   .lds-ellipsis {
     position: absolute;
@@ -14,8 +15,8 @@
   }
 }
 
-.selectSymbol {
-  margin-right: 20px;
+.symbolFilter,
+.dateFilter {
   padding: 5px 7px;
   border: 1px solid #ccc;
   outline: none;
