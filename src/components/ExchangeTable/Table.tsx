@@ -45,7 +45,7 @@ export const Table = () => {
       dateValue,
       baseSymbol,
     });
-  }, [baseSymbol, dateValue]);
+  }, [baseSymbol, dateValue, changeSymbol]);
 
   const onSymbolChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setBaseSymbol(e.target.value);

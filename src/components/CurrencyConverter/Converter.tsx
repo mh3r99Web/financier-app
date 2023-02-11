@@ -31,12 +31,12 @@ const Converter = () => {
   useEffect(() => {
     if (fromCurrency && toCurrency && debouncedAmount) {
       convertFromTo({
-        amount: amount,
+        amount: debouncedAmount,
         from: fromCurrency,
         to: toCurrency,
       });
     }
-  }, [fromCurrency, toCurrency, debouncedAmount]);
+  }, [fromCurrency, toCurrency, debouncedAmount, convertFromTo]);
 
   function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
     setAmount(e.target.value);
