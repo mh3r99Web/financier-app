@@ -1,6 +1,6 @@
 import React from 'react';
 import Converter from '../components/Converter';
-import ExchangeTable from '../components/ExchangeTable';
+import { Table as ExchangeTable } from '../components/ExchangeTable/Table';
 import './App.scss';
 
 const App = () => {
